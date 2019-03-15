@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   resources :services, only: [:index, :show]
   resources :companies, only: [:index, :show]
 
+  root :to => 'companies#index'
+
 end
