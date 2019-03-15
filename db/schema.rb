@@ -12,13 +12,16 @@
 
 ActiveRecord::Schema.define(version: 2019_03_15_132148) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
-    t.integer "resource_id"
+    t.bigint "resource_id"
     t.string "author_type"
-    t.integer "author_id"
+    t.bigint "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
@@ -43,7 +46,7 @@ ActiveRecord::Schema.define(version: 2019_03_15_132148) do
     t.string "street"
     t.string "zip_code"
     t.text "description"
-    t.integer "country_id"
+    t.bigint "country_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "city"
@@ -57,8 +60,8 @@ ActiveRecord::Schema.define(version: 2019_03_15_132148) do
   end
 
   create_table "controller_processors", force: :cascade do |t|
-    t.integer "controller_id"
-    t.integer "processor_id"
+    t.bigint "controller_id"
+    t.bigint "processor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["controller_id"], name: "index_controller_processors_on_controller_id"
@@ -86,18 +89,23 @@ ActiveRecord::Schema.define(version: 2019_03_15_132148) do
   create_table "services", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.integer "company_id"
+    t.bigint "company_id"
     t.text "typical_data"
     t.string "security_information_url"
     t.string "gdpr_information_url"
     t.string "list_of_processors_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "country_id"
+    t.bigint "country_id"
     t.string "slug"
     t.index ["company_id"], name: "index_services_on_company_id"
     t.index ["country_id"], name: "index_services_on_country_id"
     t.index ["slug"], name: "index_services_on_slug", unique: true
   end
 
+  add_foreign_key "companies", "countries"
+  add_foreign_key "controller_processors", "services", column: "controller_id"
+  add_foreign_key "controller_processors", "services", column: "processor_id"
+  add_foreign_key "services", "companies"
+  add_foreign_key "services", "countries"
 end

@@ -6,7 +6,7 @@ class CreateControllerProcessors < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    add_foreign_key :controllers, :services, column: :controller_id
-    add_foreign_key :processors, :services, column: :processor_id
+    add_foreign_key :controller_processors, :services, column: :controller_id
+    add_foreign_key :controller_processors, :services, column: :processor_id
   end
 end
