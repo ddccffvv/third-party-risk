@@ -1,2 +1,20 @@
-<h1>Services#index</h1>
-<p>Find me in app/views/services/index.html.erb</p>
+<h1>Services</h1>
+
+<table class="table table-bordered">
+  <tr>
+    <th>Service name</th>
+    <th>Company name</th>
+    <th>Description</th>
+    <th>Country</th>
+    <th></th>
+  </tr>
+  <% @services.each do |service| %>
+    <tr>
+      <td><%= service.name %></td>
+      <td><%= link_to service.company&.name, company_path(service.company) %></td>
+      <td><%= service.description %></td>
+      <td><%= service.country&.name %></td>
+      <td><%= link_to "Show", service_path(service) %></td>
+    </tr>
+  <% end %>
+</table>

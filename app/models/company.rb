@@ -15,5 +15,12 @@
 #
 
 class Company < ApplicationRecord
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+
   belongs_to :country
+  has_many :services
+
+  validates :name, presence: true
+
 end

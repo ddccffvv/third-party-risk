@@ -1,2 +1,44 @@
-<h1>Companies#show</h1>
-<p>Find me in app/views/companies/show.html.erb</p>
+<h1><%= @company.name %></h1>
+
+<h2>
+  Contact details
+</h2>
+
+<p><strong>Address:</strong> <%= @company.street %> <%= @company.zip_code  + " " + @company.city%> (<%= @company.state %>) <%= @company.country&.name %></p>
+<p><strong>Security contact:</strong> <%= @company.security_contact || "No data yet" %></p>
+<p><strong>Privacy contact:</strong> <%= @company.privacy_contact || "No data yet" %></p>
+
+<h2>
+  Description
+</h2>
+<% if @company.description.blank? %>
+  <p>No description yet.</p>
+  <% else %>
+<p><%= @company.description %></p>
+  <% end %>
+
+<h2>
+  Services
+</h2>
+<p>Services offered</p>
+
+<% if @company.services.any? %>
+<table class="table table-bordered">
+  <tr>
+    <th>Service name</th>
+    <th>Description</th>
+    <th>Country</th>
+    <th></th>
+  </tr>
+  <% @company.services.order(:name).each do |service| %>
+    <tr>
+      <td><%= service.name %></td>
+      <td><%= service.description %></td>
+      <td><%= service.country&.name %></td>
+      <td><%= link_to "Show", service_path(service) %></td>
+    </tr>
+  <% end %>
+</table>
+<% else %>
+<p>No known services</p>
+<% end %>

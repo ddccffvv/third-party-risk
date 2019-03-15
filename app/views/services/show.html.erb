@@ -1,2 +1,68 @@
-<h1>Services#show</h1>
-<p>Find me in app/views/services/show.html.erb</p>
+<h1><%= @service.name + " - (" %><%= link_to(@service.company&.name, company_path(@service.company))%>  <%=")" %></h1>
+
+<h2>Description</h2>
+<% if @service.description.blank? %>
+  <p>No description yet</p>
+<% else %>
+  <p><%= @service.description %></p>
+<% end %>
+
+<h2>Typically processes the following data</h2>
+<% if @service.typical_data.blank? %>
+  <p>No details yet</p>
+<% else %>
+  <p><%= @service.typical_data %></p>
+<% end %>
+
+<h2>Additional information</h2>
+<p>Clicking the links below will take you away from this site.</p>
+
+<p><strong>Service security information page: </strong>
+  <% if @service.security_information_url.blank? %>
+    No data yet
+  <% else %>
+    <%= link_to "Here", @service.security_information_url %>
+  <% end %>
+</p>
+
+<p><strong>Service GDPR information page: </strong>
+  <% if @service.gdpr_information_url.blank? %>
+    No data yet
+  <% else %>
+    <%= link_to "Here", @service.gdpr_information_url %>
+  <% end %>
+</p>
+
+<p><strong>Service subprocessor information page: </strong>
+  <% if @service.list_of_processors_url.blank? %>
+    No data yet
+  <% else %>
+    <%= link_to "Here", @service.list_of_processors_url %>
+  <% end %>
+</p>
+
+<h2>Subprocessors</h2>
+
+<% if @service.processors.any? %>
+<table class="table table-bordered">
+    <tr>
+      <th>Service name</th>
+      <th>Company name</th>
+      <th>Description</th>
+      <th>Country</th>
+      <th></th>
+    </tr>
+  <% @service.processors.each do |processor| %>
+    <tr>
+      <td><%= processor.name %></td>
+      <td><%= link_to processor.company&.name, company_path(processor.company) %></td>
+      <td><%= processor.description %></td>
+      <td><%= processor.country&.name %></td>
+      <td><%= link_to "Show", service_path(processor) %></td>
+    </tr>
+  <% end %>
+<% else %>
+  <p>No data yet</p>
+<% end %>
+</table>
+

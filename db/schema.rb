@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_15_101413) do
+ActiveRecord::Schema.define(version: 2019_03_15_132148) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -48,7 +48,21 @@ ActiveRecord::Schema.define(version: 2019_03_15_101413) do
     t.datetime "updated_at", null: false
     t.string "city"
     t.string "state"
+    t.string "privacy_contact"
+    t.string "security_contact"
+    t.string "phone"
+    t.string "slug"
     t.index ["country_id"], name: "index_companies_on_country_id"
+    t.index ["slug"], name: "index_companies_on_slug", unique: true
+  end
+
+  create_table "controller_processors", force: :cascade do |t|
+    t.integer "controller_id"
+    t.integer "processor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["controller_id"], name: "index_controller_processors_on_controller_id"
+    t.index ["processor_id"], name: "index_controller_processors_on_processor_id"
   end
 
   create_table "countries", force: :cascade do |t|
@@ -56,6 +70,17 @@ ActiveRecord::Schema.define(version: 2019_03_15_101413) do
     t.boolean "is_eea"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
   create_table "services", force: :cascade do |t|
@@ -69,8 +94,10 @@ ActiveRecord::Schema.define(version: 2019_03_15_101413) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "country_id"
+    t.string "slug"
     t.index ["company_id"], name: "index_services_on_company_id"
     t.index ["country_id"], name: "index_services_on_country_id"
+    t.index ["slug"], name: "index_services_on_slug", unique: true
   end
 
 end
